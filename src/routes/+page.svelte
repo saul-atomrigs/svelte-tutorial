@@ -1,5 +1,7 @@
 <script>
 	import Nested from '$lib/components/ui/Nested.svelte';
+	import Inner from '$lib/components/ui/Inner.svelte';
+	import Outer from '$lib/components/ui/Outer.svelte';
 	import { getRandomNumber } from '../lib/utils.js';
 
 	let name = 'Svelte';
@@ -35,6 +37,12 @@
 
 	function handleClick() {
 		promise = getRandomNumber();
+	}
+
+	let m = { x: 0, y: 0 };
+	function handleMove(event) {
+		m.x = event.clientX;
+		m.y = event.clientY;
 	}
 </script>
 
@@ -86,6 +94,17 @@
 {:catch error}
 	<p style="color: red">{error.message}</p>
 {/await}
+
+<div on:pointermove={handleMove}>
+	The pointer is at {m.x}
+	{m.y}
+</div>
+
+<button on:click|once={() => alert('hello')}> Click </button>
+
+<Inner on:custom={(event) => alert(event.detail.text)} />
+
+<Outer />
 
 <style>
 	p {
