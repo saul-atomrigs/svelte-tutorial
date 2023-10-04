@@ -34,6 +34,7 @@
 
 <img {src} alt="placeholder" />
 
+<Nested answer={42} />
 <Nested />
 
 <p>{@html string}</p>
