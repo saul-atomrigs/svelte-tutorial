@@ -44,7 +44,62 @@
 		m.x = event.clientX;
 		m.y = event.clientY;
 	}
+
+	let yes = false
+
+	let questions = [
+		{
+			id: 1,
+			text: `What's your name?`,
+		},
+		{
+			id: 2,
+			text: `How old are you?`,
+		},
+		{
+			id: 3,
+			text: `What's your email?`,
+		}
+	]
+
+	let answer = ''
+
+	function handleSubmit() {
+		alert(answer)
+	}
 </script>
+
+<form on:submit|preventDefault={handleSubmit}>
+	<select bind:value={selected} on:change={()=>(answer='')}>
+		{#each questions as question}
+			<option value={question.id}>
+				{question.text}
+			</option>
+		{/each}
+	</select>
+
+	<input bind:value={answer}>
+
+	<button disabled={!answer} type='submit'>
+		Submit
+	</button>
+</form>
+
+<input type="text" bind:value={name}>
+<input type="number" bind:value={name}>
+
+<label>
+	<input type="checkbox" bind:checked={yes}>
+	Send me email
+</label>
+
+{#if yes}
+	<p>Yes</p>
+{:else}
+	<p>No</p>
+{/if}
+
+
 
 <h1>Hello {name.toUpperCase()}</h1>
 
