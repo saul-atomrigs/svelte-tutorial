@@ -1,8 +1,25 @@
 <script>
+	import { onMount, tick } from 'svelte';
+	import {paint} from '../lib/gradient'
 	import Nested from '$lib/components/ui/Nested.svelte';
 	import Inner from '$lib/components/ui/Inner.svelte';
 	import Outer from '$lib/components/ui/Outer.svelte';
 	import { getRandomNumber } from '../lib/utils.js';
+	import Chat from '$lib/components/ui/Chat.svelte';
+
+	onMount(() => {
+		const canvas = document.querySelector('canvas')
+		const context = canvas?.getContext('2d')
+
+		let frame = requestAnimationFrame(function loop(t) {
+			frame = requestAnimationFrame(loop)
+			paint(context, t)
+		})
+
+		return () => {
+			cancelAnimationFrame(frame)
+		}
+	})
 
 	let name = 'Svelte';
 	const src = 'https://via.placeholder.com/150';
@@ -68,6 +85,10 @@
 		alert(answer)
 	}
 </script>
+
+<Chat />
+
+<canvas width={32} height={32} />
 
 <form on:submit|preventDefault={handleSubmit}>
 	<select bind:value={selected} on:change={()=>(answer='')}>
@@ -164,5 +185,18 @@
 <style>
 	p {
 		color: red;
+	}
+
+	canvas {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: #666;
+		mask: url(../lib/assets/svelte-logo-mask.svg) 50% 50% no-repeat;
+		mask-size: 60vmin;
+		-webkit-mask: url(../lib/assets/svelte-logo-mask.svg) 50% 50% no-repeat;
+		-webkit-mask-size: 60vmin;
 	}
 </style>
